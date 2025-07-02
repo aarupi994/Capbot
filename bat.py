@@ -1,17 +1,42 @@
-from pyrogram import Client, filters
+import telebot
+import random
 
-api_id = 24449013
-api_hash = "c6e06058575798ffd33ccfdf6643d807"
-session_string = "BQF1D_UARgaFbCiTYgzf1ih56hvksfZetek4AmWZmJDnYzzLJmKqEpjdNuHQQEyAQLrQqDsO3tCl6moL2myJLHOA_ugHwCVvIz99X4ua5NRLKcgztaNwdUJLaqKLZsYMLBWNjjHGK6ChvbsHBBKyp6hBDS00vLilviV8t1VP5Do2bKtnPfJUFvQn2iGKlmZyMo9BdGD9FNOKUKHF3Oav6DUAFtwIMTM5BM7d-HnHXydqAoJmW429KE5P-nH8e7AHFRZs1rTJPBDuOsM5ltbjJWldJm9kI8RJBZuRuh_ac6G9u4pfyJ6ZxXTGSVVFm5BVnGivafXIgUIjlvl_sRAGhW5vxq0lmwAAAAHYiZhGAA"  # <-- apna full session string daalna
+# 🔐 Bot Token
+BOT_TOKEN = "8164700708:AAETr8jBRXitDzMzG5R-HBL4y4FwCRp9Fdk"
 
-app = Client("MONSTERxCAPTAIN_session", api_id=api_id, api_hash=api_hash, session_string=session_string)
+# 🤖 Initialize bot
+bot = telebot.TeleBot(BOT_TOKEN)
 
-@app.on_message(filters.private)
-def auto_reply(client, message):
-    client.send_message(
-        chat_id=message.chat.id,
-        text="⚡ Reply from MONSTERxCAPTAIN' DON'T TRY TO SPAM"
+# 🎉 /start command handler
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    bot.send_message(
+        message.chat.id,
+        "👋 Hello! I'm Rose 🌹 bot.\nType anything and I'll reply instantly!"
     )
 
-print("🤖 MONSTERxCAPTAIN bot started... waiting for messages!")
-app.run()
+# 💬 Random reply list for other messages
+replies = [
+    "😎 I'm still here!",
+    "⚡ Got your message!",
+    "🧠 Thinking... thinking... done!",
+    "📩 Message received!",
+    "😕 Sorry, I'm not able to type anything... Can you type and send me (Hello)?",
+    "🔄 You sent something again? Interesting!",
+    "🤖 I'm a bot, but I remember you 😉",
+    "👋 Still with you!",
+    "💬 Let’s keep talking!"
+]
+
+# 🧠 Main message handler
+@bot.message_handler(func=lambda m: True)
+def handle_messages(message):
+    text = message.text.lower()
+
+    if "helo" in text or "hello" in text or "hi" in text:
+        bot.send_message(message.chat.id, "TERE CHUT ME HELO DAL DUNGA CHUTIYE😂")
+    else:
+        response = random.choice(replies)
+        bot.send_message(message.chat.id, response)
+print("🤖 ROSE 🌹's bot started... Waiting for messages.")
+bot.infinity_polling()
